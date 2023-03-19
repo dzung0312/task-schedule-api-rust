@@ -23,7 +23,7 @@ impl TaskIdleTrigger {
     }
 }
 
-//add
+//add Daily
 pub struct TaskDailyTrigger {
     pub(crate) id: BSTR,
     pub(crate) repetition_interval: BSTR,
