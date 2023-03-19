@@ -5,15 +5,14 @@ pub mod task_trigger;
 use crate::task::task_action::TaskAction;
 use crate::task::task_settings::TaskSettings;
 use crate::RegisteredTask;
-use task_trigger::{TaskIdleTrigger, TaskLogonTrigger};
+use task_trigger::{TaskIdleTrigger, TaskDailyTrigger, TaskLogonTrigger};
 
 use windows::core::{Interface, Result};
 use windows::Win32::Foundation::BSTR;
 use windows::Win32::System::Com::{
     CoCreateInstance, CoInitializeEx, CLSCTX_ALL, COINIT_MULTITHREADED, VARIANT,
 };
-use windows::Win32::System::TaskScheduler::{IAction, IActionCollection, IExecAction, IIdleSettings, IIdleTrigger, ILogonTrigger, IPrincipal, IRegistrationInfo, IRepetitionPattern, ITaskDefinition, ITaskFolder, ITaskService, ITaskSettings, ITriggerCollection, TaskScheduler, TASK_ACTION_EXEC, TASK_CREATE_OR_UPDATE, TASK_LOGON_INTERACTIVE_TOKEN, TASK_RUNLEVEL_HIGHEST, TASK_RUNLEVEL_LUA, TASK_TRIGGER_IDLE, TASK_TRIGGER_LOGON, TASK_TRIGGER_DAILY, IDailyTrigger};
-use crate::task::task_trigger::TaskDailyTrigger;
+use windows::Win32::System::TaskScheduler::{IAction, IActionCollection, IExecAction, IIdleSettings, IIdleTrigger, IDailyTrigger, ILogonTrigger, IPrincipal, IRegistrationInfo, IRepetitionPattern, ITaskDefinition, ITaskFolder, ITaskService, ITaskSettings, ITriggerCollection, TaskScheduler, TASK_ACTION_EXEC, TASK_CREATE_OR_UPDATE, TASK_LOGON_INTERACTIVE_TOKEN, TASK_RUNLEVEL_HIGHEST, TASK_RUNLEVEL_LUA, TASK_TRIGGER_IDLE, TASK_TRIGGER_LOGON, TASK_TRIGGER_DAILY};
 
 pub enum RunLevel {
     HIGHEST,
