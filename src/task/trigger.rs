@@ -36,6 +36,13 @@ generate_triggers!(
     TASK_TRIGGER_IDLE
 );
 
+//add
+generate_triggers!(
+    windows::Win32::System::TaskScheduler::IDailyTrigger,
+    DailyTrigger,
+    TASK_TRIGGER_DAILY
+);
+
 generate_triggers!(
     windows::Win32::System::TaskScheduler::ILogonTrigger,
     LogonTrigger,

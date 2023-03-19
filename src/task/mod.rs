@@ -12,13 +12,8 @@ use windows::Win32::Foundation::BSTR;
 use windows::Win32::System::Com::{
     CoCreateInstance, CoInitializeEx, CLSCTX_ALL, COINIT_MULTITHREADED, VARIANT,
 };
-use windows::Win32::System::TaskScheduler::{
-    IAction, IActionCollection, IExecAction, IIdleSettings, IIdleTrigger, ILogonTrigger,
-    IPrincipal, IRegistrationInfo, IRepetitionPattern, ITaskDefinition, ITaskFolder, ITaskService,
-    ITaskSettings, ITriggerCollection, TaskScheduler, TASK_ACTION_EXEC, TASK_CREATE_OR_UPDATE,
-    TASK_LOGON_INTERACTIVE_TOKEN, TASK_RUNLEVEL_HIGHEST, TASK_RUNLEVEL_LUA, TASK_TRIGGER_IDLE,
-    TASK_TRIGGER_LOGON,
-};
+use windows::Win32::System::TaskScheduler::{IAction, IActionCollection, IExecAction, IIdleSettings, IIdleTrigger, ILogonTrigger, IPrincipal, IRegistrationInfo, IRepetitionPattern, ITaskDefinition, ITaskFolder, ITaskService, ITaskSettings, ITriggerCollection, TaskScheduler, TASK_ACTION_EXEC, TASK_CREATE_OR_UPDATE, TASK_LOGON_INTERACTIVE_TOKEN, TASK_RUNLEVEL_HIGHEST, TASK_RUNLEVEL_LUA, TASK_TRIGGER_IDLE, TASK_TRIGGER_LOGON, TASK_TRIGGER_DAILY, IDailyTrigger};
+use crate::task::task_trigger::TaskDailyTrigger;
 
 pub enum RunLevel {
     HIGHEST,
@@ -124,6 +119,23 @@ impl Task {
             let repetition: IRepetitionPattern = i_idle_trigger.Repetition()?;
             repetition.SetInterval(idle_trigger.repetition_interval)?;
             repetition.SetStopAtDurationEnd(idle_trigger.repetition_stop_at_duration_end)?;
+        }
+        Ok(self)
+    }
+
+    //add
+    pub fn daily_trigger(self, daily_trigger: TaskDailyTrigger) -> Result<Self> {
+        unsafe {
+            let trigger = self.triggers.Create(TASK_TRIGGER_DAILY)?;
+
+            let i_daily_trigger: IDailyTrigger = trigger.cast::<IDailyTrigger>()?;
+            i_daily_trigger.SetId(daily_trigger.id)?;
+            i_daily_trigger.SetEnabled(1)?;
+            i_daily_trigger.SetExecutionTimeLimit(daily_trigger.execution_time_limit)?;
+
+            let repetition: IRepetitionPattern = i_daily_trigger.Repetition()?;
+            repetition.SetInterval(daily_trigger.repetition_interval)?;
+            repetition.SetStopAtDurationEnd(daily_trigger.repetition_stop_at_duration_end)?;
         }
         Ok(self)
     }

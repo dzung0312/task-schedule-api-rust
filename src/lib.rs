@@ -2,7 +2,7 @@ mod task;
 pub use task::{
     task_action::TaskAction,
     task_settings::TaskSettings,
-    task_trigger::{TaskIdleTrigger, TaskLogonTrigger},
+    task_trigger::{TaskIdleTrigger, TaskDailyTrigger, TaskLogonTrigger},
     RunLevel, Task,
 };
 
